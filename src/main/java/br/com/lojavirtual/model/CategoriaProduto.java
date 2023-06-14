@@ -22,7 +22,7 @@ public class CategoriaProduto implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_categoria_produto")
 	private Long id;
 	
-	@Column(name= "nome_desc", nullable = false)
+	@Column(nullable = false)
 	String nomeDesc;
 
 	public Long getId() {
@@ -57,7 +57,5 @@ public class CategoriaProduto implements Serializable{
 		CategoriaProduto other = (CategoriaProduto) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 
 }
