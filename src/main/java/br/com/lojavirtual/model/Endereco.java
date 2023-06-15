@@ -3,9 +3,12 @@ package br.com.lojavirtual.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import br.com.lojavirtual.enums.TipoEndereco;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,6 +40,9 @@ public class Endereco implements Serializable {
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoal_fk"))
 	private Pessoa pessoa;
+
+	@Enumerated(EnumType.STRING)
+	private TipoEndereco tipoEndereco;
 
 	public Long getId() {
 		return id;
@@ -108,6 +114,14 @@ public class Endereco implements Serializable {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	public TipoEndereco getTipoEndereco() {
+		return tipoEndereco;
+	}
+
+	public void setTipoEndereco(TipoEndereco tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
 	}
 
 	@Override
