@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class Acesso implements GrantedAuthority {
 	@Column(nullable = false)
 	private String descricao; /* Acesso ex: ROLE_ADMIN ou ROLE_SECRETARIO */
 
+	@JsonIgnore
 	@Override
 	public String getAuthority() {
 		// TODO Auto-generated method stub
