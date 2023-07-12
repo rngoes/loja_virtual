@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.lojavirtual.ExceptionLojaVirtual;
 import br.com.lojavirtual.model.Acesso;
 import br.com.lojavirtual.repository.AcessoRepository;
 import br.com.lojavirtual.service.AcessoService;
@@ -30,7 +31,14 @@ public class AcessoController {
 	
 	@ResponseBody /* Poder dar u retorno da API */
 	@PostMapping(value = "**/salvarAcesso") /* Mapeando a url para receber JSON */
-	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) { /* Recebe o JSON e converte para Objeto */
+	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExceptionLojaVirtual { /* Recebe o JSON e converte para Objeto */
+		
+		if (acesso.getId() == null) {
+			List<Acesso> acessos = acessoRepository.buscarAcessoDesc(acesso.getDescricao().toUpperCase());
+			if (!acessos.isEmpty()) {
+				throw new ExceptionLojaVirtual("Já existe Acesso com a descrição: " + acesso.getDescricao());
+			}
+		}
 		
 		Acesso acessoSalvo = acessoService.save(acesso);
 		
@@ -57,9 +65,13 @@ public class AcessoController {
 	
 	@ResponseBody
 	@GetMapping(value = "**/obterAcesso/{id}")
-	public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) {
+	public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) throws ExceptionLojaVirtual {
 		
-		Acesso acesso = acessoRepository.findById(id).get();
+		Acesso acesso = acessoRepository.findById(id).orElse(null);
+		
+		if (acesso == null) {
+			throw new ExceptionLojaVirtual("Não encontrou Acesso com código: " + id);
+		}
 		
 		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);
 	}
