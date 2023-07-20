@@ -3,7 +3,6 @@ package br.com.lojavirtual.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import br.com.lojavirtual.enums.TipoEndereco;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -18,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.com.lojavirtual.enums.TipoEndereco;
+
 @Entity
 @Table(name = "endereco")
 @SequenceGenerator(name = "seq_endereco", sequenceName = "seq_endereco", allocationSize = 1, initialValue = 1)
@@ -31,21 +32,21 @@ public class Endereco implements Serializable {
 
 	@Column(nullable = false)
 	private String ruaLogra;
-	
+
 	@Column(nullable = false)
 	private String cep;
-	
+
 	@Column(nullable = false)
 	private String numero;
-	
+
 	private String complemento;
-	
+
 	@Column(nullable = false)
 	private String bairro;
-	
+
 	@Column(nullable = false)
 	private String uf;
-	
+
 	@Column(nullable = false)
 	private String cidade;
 
@@ -56,6 +57,10 @@ public class Endereco implements Serializable {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
+
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
 
 	public Long getId() {
 		return id;
@@ -135,6 +140,14 @@ public class Endereco implements Serializable {
 
 	public void setTipoEndereco(TipoEndereco tipoEndereco) {
 		this.tipoEndereco = tipoEndereco;
+	}
+
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
 	}
 
 	@Override

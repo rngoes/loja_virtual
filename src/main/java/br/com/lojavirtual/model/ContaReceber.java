@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
-import br.com.lojavirtual.enums.StatusContaReceber;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -22,10 +21,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.lojavirtual.enums.StatusContaReceber;
+
 @Entity
 @Table(name = "conta_receber")
 @SequenceGenerator(name = "seq_conta_receber", sequenceName = "seq_conta_receber", allocationSize = 1, initialValue = 1)
-public class ContaReceber implements Serializable  {
+public class ContaReceber implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,6 +56,10 @@ public class ContaReceber implements Serializable  {
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoal_fk"))
 	private Pessoa pessoa;
+
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
 
 	public Long getId() {
 		return id;
@@ -118,6 +123,14 @@ public class ContaReceber implements Serializable  {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
 	}
 
 	@Override

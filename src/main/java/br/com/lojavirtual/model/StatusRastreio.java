@@ -15,14 +15,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "status_ratreio")
-@SequenceGenerator(name = "seq_status_ratreio", sequenceName = "seq_status_ratreio", allocationSize = 1, initialValue = 1)
+@Table(name = "status_rastreio")
+@SequenceGenerator(name = "seq_status_rastreio", sequenceName = "seq_status_rastreio", allocationSize = 1, initialValue = 1)
 public class StatusRastreio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_status_ratreio")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_status_rastreio")
 	private Long id;
 
 	private String centroDistribuicao;
@@ -36,7 +36,11 @@ public class StatusRastreio implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "venda_compra_loja_virt_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja_virt_fk"))
 	private VendaCompraLojaVirtual vendaCompraLojaVirtual;
-	
+
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +79,22 @@ public class StatusRastreio implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public VendaCompraLojaVirtual getVendaCompraLojaVirtual() {
+		return vendaCompraLojaVirtual;
+	}
+
+	public void setVendaCompraLojaVirtual(VendaCompraLojaVirtual vendaCompraLojaVirtual) {
+		this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
+	}
+
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
 	}
 
 	@Override

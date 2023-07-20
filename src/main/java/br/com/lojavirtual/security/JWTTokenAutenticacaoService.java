@@ -70,7 +70,7 @@ public class JWTTokenAutenticacaoService {
 
 				if (user != null) {
 					Usuario usuario = ApplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
-							.findUserByLong(user);
+							.findUserByLogin(user);
 
 					if (usuario != null) {
 						return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
